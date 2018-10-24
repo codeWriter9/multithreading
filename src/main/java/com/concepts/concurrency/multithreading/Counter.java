@@ -25,7 +25,7 @@ public final class Counter {
 	
 	/**
 	 * 
-	 * 
+	 * waits on lock
 	 * 
 	 */
 	public void waitOnLock() {
@@ -38,8 +38,9 @@ public final class Counter {
 	
 	/**
 	 * 
+	 * Increments and returns a Integer value
 	 * 
-	 * @return
+	 * @return Integer
 	 */
 	public Integer incrementAndIntValue() {
 		synchronized (lock) {
@@ -51,8 +52,9 @@ public final class Counter {
 	
 	/**
 	 * 
+	 * Increments and returns a Long value
 	 * 
-	 * @return
+	 * @return Long
 	 */
 	public Long incrementAndlongValue() {
 		synchronized (lock) {
@@ -66,8 +68,9 @@ public final class Counter {
 	
 	/**
 	 * 
+	 * Return the Integer value of the counter
 	 * 
-	 * @return
+	 * @return 
 	 */
 	public Integer intValue() {
 		synchronized (lock) {
@@ -77,8 +80,9 @@ public final class Counter {
 	
 	/**
 	 * 
+	 * Return the Long value of the counter
 	 * 
-	 * @return
+	 * @return long value
 	 */
 	public Long longValue() {
 		synchronized (lock) {

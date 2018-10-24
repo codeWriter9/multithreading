@@ -1,8 +1,11 @@
 # Compiled class file
 *.class
 
+
 # Unit test reports
 *.lst
+*Test*.xml
+*Test*.txt
 
 
 # Log file

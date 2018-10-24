@@ -1,5 +1,10 @@
 package com.concepts.concurrency.multithreading;
 
+import static com.concepts.concurrency.multithreading.RunnableFactory.consumerRunners;
+import static com.concepts.concurrency.multithreading.RunnableFactory.incrementerRunners;
+import static com.concepts.concurrency.multithreading.RunnableFactory.shutdownWithGrace;
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,11 +24,11 @@ public class CounterTest {
 	 */
 	@Test
 	public void testCounterIsThreadSafe() {
-		ExecutorService service = Executors.newCachedThreadPool();
+		ExecutorService service = newCachedThreadPool();
 		Counter counter = new Counter();
-		for(int loop=0;loop<10;loop++) service.execute(RunnableFactory.incrementerRunners(counter));
-		service.execute(RunnableFactory.consumerRunners(counter));
-		RunnableFactory.shutdownWithGrace(service);
+		for(int loop=0;loop<10;loop++) service.execute(incrementerRunners(counter));
+		service.execute(consumerRunners(counter));
+		shutdownWithGrace(service);
 	}
 	
 	/**
@@ -31,11 +36,11 @@ public class CounterTest {
 	 */
 	@Test
 	public void testCounterIsThreadSafe2() {
-		ExecutorService service = Executors.newCachedThreadPool();
+		ExecutorService service = newCachedThreadPool();
 		final Counter counter = new Counter();
-		service.execute(RunnableFactory.consumerRunners(counter, c -> c.intValue() % 2 == 0));
-		for(int loop=0;loop<10;loop++) service.execute(RunnableFactory.incrementerRunners(counter));		
-		RunnableFactory.shutdownWithGrace(service);
+		service.execute(consumerRunners(counter, c -> c.intValue() % 2 == 0));
+		for(int loop=0;loop<10;loop++) service.execute(incrementerRunners(counter));		
+		shutdownWithGrace(service);
 	}
 
 }

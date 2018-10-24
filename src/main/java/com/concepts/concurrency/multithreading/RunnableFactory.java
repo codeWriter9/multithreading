@@ -1,7 +1,10 @@
 package com.concepts.concurrency.multithreading;
 
+import static java.lang.System.err;
+import static java.lang.System.out;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 import com.concepts.concurrency.multithreading.color.ColorPrinter;
@@ -11,6 +14,9 @@ import com.concepts.concurrency.multithreading.color.Status;
  * 
  * Static Factory class to create Runnables
  * 
+ * interface which in this case happens to Callable and supplied by Java
+ * platform and creator interface which is this static class
+ * 
  * @author Sanjay Ghosh
  *
  */
@@ -18,12 +24,13 @@ public class RunnableFactory {
 
 	/**
 	 * 
-	 * Creates a runnable which will wait until the status is not of the current color printer
-	 * Once that has printed that will go to the next color and notify all threads waiting 
+	 * Creates a runnable which will wait until the status is not of the current
+	 * color printer Once that has printed that will go to the next color and notify
+	 * all threads waiting
 	 * 
 	 * @param colorPrinter
 	 * @param status
-	 * @return
+	 * @return Runnable
 	 */
 	public static Runnable colorPrinterWithStatusRunners(final ColorPrinter colorPrinter, final Status status) {
 		return () -> {
@@ -32,16 +39,16 @@ public class RunnableFactory {
 					while (status.isNot(colorPrinter.color())) {
 						status.wait();
 					}
-					System.out.println(colorPrinter.color());
+					out.println(colorPrinter.color());
 					status.set(ColorPrinter.nextColor(colorPrinter));
 					status.notifyAll();
 				} catch (InterruptedException e) {
-					System.err.println(e.getMessage());
+					err.println(e.getMessage());
 				}
 			}
 		};
 	}
-	
+
 	/**
 	 * 
 	 * Create a runnable which will increment the counter and print the same
@@ -51,10 +58,10 @@ public class RunnableFactory {
 	 */
 	public static Runnable incrementerRunners(final Counter counter) {
 		return () -> {
-			counter.incrementAndIntValue();			
+			counter.incrementAndIntValue();
 		};
 	}
-	
+
 	/**
 	 * 
 	 * Create a runnable which will consume the counter and print the same
@@ -64,10 +71,10 @@ public class RunnableFactory {
 	 */
 	public static Runnable consumerRunners(final Counter counter) {
 		return () -> {
-			System.out.println(counter.intValue());
+			out.println(counter.intValue());
 		};
 	}
-	
+
 	/**
 	 * 
 	 * Create a runnable which will consume the counter and print the same
@@ -77,30 +84,30 @@ public class RunnableFactory {
 	 */
 	public static Runnable consumerRunners(final Counter counter, final Predicate<Counter> predicate) {
 		return () -> {
-			if(predicate.test(counter)) {
-				System.out.println(counter.intValue());
-			}
-			else {
-				while(!predicate.test(counter)) {
+			if (predicate.test(counter)) {
+				out.println(counter.intValue());
+			} else {
+				while (!predicate.test(counter)) {
 					counter.waitOnLock();
 				}
 			}
 		};
 	}
-	
+
 	/**
 	 * 
 	 * Boiler plate code to shutdown with grace Ideally this should be in some
 	 * abstract class
 	 * 
+	 * TODO this method will be removed and a suitable utils library would be added
 	 */
 	public static void shutdownWithGrace(final ExecutorService service) {
 		try {
 			service.shutdown();
-			while (!service.awaitTermination(1000, TimeUnit.MILLISECONDS))
+			while (!service.awaitTermination(1000, MILLISECONDS))
 				service.shutdownNow();
 		} catch (InterruptedException e) {
-			System.err.println(e.getMessage());
+			err.println(e.getMessage());
 		}
 	}
 
