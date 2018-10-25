@@ -1,4 +1,4 @@
-# Project Title
+# Multi-threading
 
 Collection of some multi-threading problems and how to tackle them 
 
@@ -27,15 +27,6 @@ different threads
 ColorTest.checkColorsInSequence using pre-Java 5 wait and notify
 ColorTest.checkColorsInSequenceThroughExecutorService using Java 5 execution service
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
 
 ## Built With
 
