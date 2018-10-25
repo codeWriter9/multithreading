@@ -103,9 +103,16 @@ public class RunnableFactory {
 	 */
 	public static void shutdownWithGrace(final ExecutorService service) {
 		try {
-			service.shutdown();
-			while (!service.awaitTermination(1000, MILLISECONDS))
-				service.shutdownNow();
+			service.shutdown();// Stop taking for any request
+			while (!service.awaitTermination(1000, MILLISECONDS)) {// wait for 1 sec
+				service.shutdownNow()
+						.forEach((runnable) -> System.out.println(" waiting for this to stop " + runnable.toString()));// force
+																														// the
+																														// running
+																														// threads
+																														// to
+																														// stop
+			}
 		} catch (InterruptedException e) {
 			err.println(e.getMessage());
 		}

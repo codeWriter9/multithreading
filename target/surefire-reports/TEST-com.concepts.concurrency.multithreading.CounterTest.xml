@@ -18,7 +18,7 @@
     <property name="user.country" value="IN"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_171\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\SANJAY~1\AppData\Local\Temp\surefire7649775210297556765\surefirebooter7491220759311880676.jar C:\Users\Sanjay Ghosh\AppData\Local\Temp\surefire7649775210297556765 2018-10-24T21-12-53_642-jvmRun1 surefire516479974822182114tmp surefire_05932226132092587781tmp"/>
+    <property name="sun.java.command" value="C:\Users\SANJAY~1\AppData\Local\Temp\surefire6698108283585637327\surefirebooter7795108758940132765.jar C:\Users\Sanjay Ghosh\AppData\Local\Temp\surefire6698108283585637327 2018-10-25T19-42-19_322-jvmRun1 surefire3730439561840318909tmp surefire_03689982773470747640tmp"/>
     <property name="surefire.test.class.path" value="C:\work\projects\java\multithreading\target\test-classes;C:\work\projects\java\multithreading\target\classes;C:\work\repo\junit\junit\4.11\junit-4.11.jar;C:\work\repo\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\Sanjay Ghosh"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\SANJAY~1\AppData\Local\Temp\surefire7649775210297556765\surefirebooter7491220759311880676.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\SANJAY~1\AppData\Local\Temp\surefire6698108283585637327\surefirebooter7795108758940132765.jar"/>
     <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_171\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_171\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -61,5 +61,5 @@
     <property name="java.class.version" value="52.0"/>
   </properties>
   <testcase name="testCounterIsThreadSafe2" classname="com.concepts.concurrency.multithreading.CounterTest" time="0.002"/>
-  <testcase name="testCounterIsThreadSafe" classname="com.concepts.concurrency.multithreading.CounterTest" time="0.003"/>
+  <testcase name="testCounterIsThreadSafe" classname="com.concepts.concurrency.multithreading.CounterTest" time="0"/>
 </testsuite>
