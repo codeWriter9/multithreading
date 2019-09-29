@@ -20,8 +20,8 @@ run mvn clean install
 
 Current Tests are as follows
 
-1. Colors Test : A JUnit that tests if ColorPrinter prints colors Red Green Blue in sequence inspite of them being run by three
-different threads
+1. [Colors Test](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java) : A JUnit 
+that tests if ColorPrinter prints colors Red Green Blue in sequence inspite of them being run by three different threads
 
 ```
 ColorTest.checkColorsInSequence using pre-Java 5 wait and notify
