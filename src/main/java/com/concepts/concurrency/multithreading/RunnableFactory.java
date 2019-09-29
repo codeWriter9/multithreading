@@ -103,7 +103,7 @@ public class RunnableFactory {
 	 */
 	public static void shutdownWithGrace(final ExecutorService service) {
 		try {
-			service.shutdown();// Stop taking for any request
+			service.shutdown();// Stop taking any further request
 			while (!service.awaitTermination(1000, MILLISECONDS)) {// wait for 1 sec
 				service.shutdownNow()
 						.forEach((runnable) -> System.out.println(" waiting for this to stop " + runnable.toString()));// force

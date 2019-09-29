@@ -14,6 +14,7 @@ public class Status {
 
 	/**
 	 * 
+	 * Parameterized constructor to state the color of the state object
 	 * 
 	 * @param color
 	 */
@@ -23,6 +24,7 @@ public class Status {
 
 	/**
 	 * 
+	 * Sets the Color of the state object
 	 * 
 	 * @param color
 	 */
@@ -32,9 +34,10 @@ public class Status {
 
 	/**
 	 * 
+	 * Returns True if the parameter color is the current color
 	 * 
 	 * @param color
-	 * @return
+	 * @return boolean
 	 */
 	public synchronized boolean isNot(Color color) {
 		return this.color != color;

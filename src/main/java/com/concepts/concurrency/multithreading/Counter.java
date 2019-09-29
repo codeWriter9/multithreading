@@ -1,5 +1,7 @@
 package com.concepts.concurrency.multithreading;
 
+import static java.lang.Long.valueOf;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public final class Counter {
 	
-	private Long counterValue = Long.valueOf(0L);
+	private Long counterValue = valueOf(0L);
 	private Lock lock;
 	
 	/**
