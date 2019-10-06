@@ -2,7 +2,9 @@ package com.concepts.concurrency.multithreading;
 
 import static com.concepts.concurrency.multithreading.CallableFactory.colorPrinterWithStatusCallers;
 import static com.concepts.concurrency.multithreading.RunnableFactory.colorPrinterWithStatusRunners;
+import static com.concepts.concurrency.multithreading.color.Color.RED;
 import static java.lang.System.err;
+import static java.lang.Thread.sleep;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.generate;
@@ -12,12 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.junit.Test;
 
-import com.concepts.concurrency.multithreading.color.Color;
 import com.concepts.concurrency.multithreading.color.ColorPrinter;
 import com.concepts.concurrency.multithreading.color.Status;
 
@@ -41,7 +41,7 @@ public class ColorTest {
 		list.addAll(generate(ColorPrinter::greenPrinter).limit(10).collect(toList()));
 		list.addAll(generate(ColorPrinter::bluePrinter).limit(10).collect(toList()));
 
-		Status status = new Status(Color.RED);
+		Status status = new Status(RED);
 		Thread threads[] = new Thread[30];
 		int index = 0;
 		for (ColorPrinter printer : list) {
@@ -53,7 +53,7 @@ public class ColorTest {
 		}
 
 		try {
-			Thread.sleep(5000);
+			sleep(5000);
 		} catch (InterruptedException e1) {
 			System.err.println(e1.getMessage());
 		}
@@ -77,7 +77,7 @@ public class ColorTest {
 		list.addAll(generate(ColorPrinter::greenPrinter).limit(10).collect(toList()));
 		list.addAll(generate(ColorPrinter::bluePrinter).limit(10).collect(toList()));
 
-		Status status = new Status(Color.RED);
+		Status status = new Status(RED);
 
 		ExecutorService executorService = newCachedThreadPool();
 		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();
@@ -86,7 +86,7 @@ public class ColorTest {
 		}
 
 		try {
-			Thread.sleep(5000);
+			sleep(5000);
 		} catch (InterruptedException e1) {
 			err.println(e1.getMessage());
 		}
@@ -99,5 +99,4 @@ public class ColorTest {
 			}
 		}
 	}
-
 }
