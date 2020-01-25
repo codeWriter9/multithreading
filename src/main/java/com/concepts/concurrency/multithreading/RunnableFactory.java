@@ -54,11 +54,46 @@ public class RunnableFactory {
 	 * Create a runnable which will increment the counter and print the same
 	 * 
 	 * @param counter
-	 * @return
+	 * @return Runnable
 	 */
 	public static Runnable incrementerRunners(final Counter counter) {
 		return () -> {
 			counter.incrementAndIntValue();
+		};
+	}
+
+	/**
+	 * 
+	 * Create a runnable which will increment the counter and print the same
+	 * 
+	 * @param counter
+	 * @param numberOfTimes
+	 * @return Runnable
+	 */
+	public static Runnable incrementerRunners(final Counter counter, final int numberOfTimes) {
+		return () -> {
+			for (int loop = 0; loop < numberOfTimes; loop++) {
+				counter.incrementAndIntValue();
+			}
+		};
+	}
+
+	/**
+	 * 
+	 * Create a runnable which will increment the counter and print the same
+	 * 
+	 * @param counter
+	 * @param numberOfTimes
+	 * @param steps
+	 * @return Runnable
+	 */
+	public static Runnable incrementerRunners(final Counter counter, final int numberOfTimes, final int steps) {
+		return () -> {
+			for (int loop = 0; loop < numberOfTimes; loop = steps + loop) {
+				for (int inner =0;inner < steps;inner++) {
+					counter.incrementAndIntValue();
+				}				
+			}
 		};
 	}
 

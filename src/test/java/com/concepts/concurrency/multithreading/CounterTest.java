@@ -24,7 +24,7 @@ public class CounterTest {
 	 * Tests whether the counter is thread safe
 	 */
 	@Test
-	public void testIncrementAndConsumeCount() {
+	public void testIncrementersAndConsumers() {
 		ExecutorService service = newCachedThreadPool();
 		Counter counter = new Counter();
 		for (int loop = 0; loop < 10; loop++) {
@@ -40,7 +40,7 @@ public class CounterTest {
 	 * Tests whether the counter is thread safe
 	 */
 	@Test
-	public void testCounterIsThreadSafe2() {
+	public void testStartConsumersFirstAndThenIncrementers() {
 		ExecutorService service = newCachedThreadPool();
 		final Counter counter = new Counter();
 		service.execute(consumerRunners(counter, c -> c.intValue() % 2 == 0));
@@ -49,5 +49,37 @@ public class CounterTest {
 		}		
 		shutdownWithGrace(service);
 		assertEquals(Integer.valueOf(10), counter.intValue());
+	}
+	
+	/**
+	 * 
+	 * Tests whether the counter is thread safe
+	 */
+	@Test
+	public void testIncrementersAndConsumersInnerLoop() {
+		ExecutorService service = newCachedThreadPool();
+		Counter counter = new Counter();
+		for (int loop = 0; loop < 10; loop++) {
+			service.execute(incrementerRunners(counter, 10));
+		}
+		service.execute(consumerRunners(counter));		
+		shutdownWithGrace(service);		
+		assertEquals(Integer.valueOf(100), counter.intValue());		
+	}
+	
+	/**
+	 * 
+	 * Tests whether the counter is thread safe
+	 */
+	@Test
+	public void testIncrementersAndConsumersInnerLoopAndStep() {
+		ExecutorService service = newCachedThreadPool();
+		Counter counter = new Counter();
+		for (int loop = 0; loop < 10; loop++) {
+			service.execute(incrementerRunners(counter, 10, loop % 2 == 0 ? 1 : 2));
+		}
+		service.execute(consumerRunners(counter));		
+		shutdownWithGrace(service);
+		assertEquals(Integer.valueOf(100), counter.intValue());		
 	}
 }
