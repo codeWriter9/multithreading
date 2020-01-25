@@ -1,11 +1,13 @@
 package com.concepts.concurrency.multithreading;
 
-import static java.lang.System.err;
-import static java.lang.System.out;
+import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.function.Predicate;
+
+import org.slf4j.Logger;
 
 import com.concepts.concurrency.multithreading.color.ColorPrinter;
 import com.concepts.concurrency.multithreading.color.Status;
@@ -21,6 +23,8 @@ import com.concepts.concurrency.multithreading.color.Status;
  *
  */
 public class RunnableFactory {
+
+	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	/**
 	 * 
@@ -39,11 +43,11 @@ public class RunnableFactory {
 					while (status.isNot(colorPrinter.color())) {
 						status.wait();
 					}
-					out.println(colorPrinter.color());
+					LOG.info(colorPrinter.color().toString());
 					status.set(ColorPrinter.nextColor(colorPrinter));
 					status.notifyAll();
 				} catch (InterruptedException e) {
-					err.println(e.getMessage());
+					LOG.error(e.getMessage(), e);
 				}
 			}
 		};
@@ -90,9 +94,9 @@ public class RunnableFactory {
 	public static Runnable incrementerRunners(final Counter counter, final int numberOfTimes, final int steps) {
 		return () -> {
 			for (int loop = 0; loop < numberOfTimes; loop = steps + loop) {
-				for (int inner =0;inner < steps;inner++) {
+				for (int inner = 0; inner < steps; inner++) {
 					counter.incrementAndIntValue();
-				}				
+				}
 			}
 		};
 	}
@@ -106,7 +110,7 @@ public class RunnableFactory {
 	 */
 	public static Runnable consumerRunners(final Counter counter) {
 		return () -> {
-			out.println(counter.intValue());
+			LOG.info(counter.intValue() + "");
 		};
 	}
 
@@ -120,7 +124,7 @@ public class RunnableFactory {
 	public static Runnable consumerRunners(final Counter counter, final Predicate<Counter> predicate) {
 		return () -> {
 			if (predicate.test(counter)) {
-				out.println(counter.intValue());
+				LOG.info(counter.intValue() + "");
 			} else {
 				while (!predicate.test(counter)) {
 					counter.waitOnLock();
@@ -141,15 +145,15 @@ public class RunnableFactory {
 			service.shutdown();// Stop taking any further request
 			while (!service.awaitTermination(1000, MILLISECONDS)) {// wait for 1 sec
 				service.shutdownNow()
-						.forEach((runnable) -> System.out.println(" waiting for this to stop " + runnable.toString()));// force
-																														// the
-																														// running
-																														// threads
-																														// to
-																														// stop
+						.forEach((runnable) -> LOG.info(" waiting for this to stop " + runnable.toString()));// force
+																												// the
+																												// running
+																												// threads
+																												// to
+																												// stop
 			}
 		} catch (InterruptedException e) {
-			err.println(e.getMessage());
+			LOG.error(e.getMessage(), e);
 		}
 	}
 

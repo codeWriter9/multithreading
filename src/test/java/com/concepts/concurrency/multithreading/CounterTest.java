@@ -3,12 +3,15 @@ package com.concepts.concurrency.multithreading;
 import static com.concepts.concurrency.multithreading.RunnableFactory.consumerRunners;
 import static com.concepts.concurrency.multithreading.RunnableFactory.incrementerRunners;
 import static com.concepts.concurrency.multithreading.RunnableFactory.shutdownWithGrace;
+import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static org.junit.Assert.assertEquals;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.concurrent.ExecutorService;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
 /**
  * 
@@ -18,6 +21,8 @@ import org.junit.Test;
  *
  */
 public class CounterTest {
+	
+	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	/**
 	 * 

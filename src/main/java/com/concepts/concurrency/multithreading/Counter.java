@@ -1,9 +1,13 @@
 package com.concepts.concurrency.multithreading;
 
 import static java.lang.Long.valueOf;
+import static java.lang.invoke.MethodHandles.lookup;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.slf4j.Logger;
 
 /**
  * 
@@ -13,6 +17,8 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  */
 public final class Counter {
+	
+	private static final Logger LOG = getLogger(lookup().lookupClass());
 	
 	private Long counterValue = valueOf(0L);
 	private Lock lock;
@@ -34,7 +40,7 @@ public final class Counter {
 		try {
 			lock.wait();
 		} catch (InterruptedException e) {
-			System.err.println(e.getMessage());
+			LOG.error(e.getMessage(), e);
 		}
 	}
 	

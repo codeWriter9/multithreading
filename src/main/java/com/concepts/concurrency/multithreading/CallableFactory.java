@@ -2,10 +2,12 @@ package com.concepts.concurrency.multithreading;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static java.lang.System.err;
-import static java.lang.System.out;
+import static java.lang.invoke.MethodHandles.lookup;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.concurrent.Callable;
+
+import org.slf4j.Logger;
 
 import com.concepts.concurrency.multithreading.color.ColorPrinter;
 import com.concepts.concurrency.multithreading.color.Status;
@@ -22,6 +24,8 @@ import com.concepts.concurrency.multithreading.color.Status;
  *
  */
 public class CallableFactory {
+
+	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	/**
 	 * 
@@ -41,12 +45,12 @@ public class CallableFactory {
 					while (status.isNot(colorPrinter.color())) {
 						status.wait();
 					}
-					out.println(colorPrinter.color());
+					LOG.info(colorPrinter.color().toString());
 					status.set(ColorPrinter.nextColor(colorPrinter));
 					status.notifyAll();
 					return TRUE;
 				} catch (InterruptedException e) {
-					err.println(e.getMessage());
+					LOG.error(e.getMessage(), e);
 					return FALSE;
 				}
 			}
