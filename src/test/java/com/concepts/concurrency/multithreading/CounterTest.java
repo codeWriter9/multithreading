@@ -4,6 +4,7 @@ import static com.concepts.concurrency.multithreading.RunnableFactory.consumerRu
 import static com.concepts.concurrency.multithreading.RunnableFactory.incrementerRunners;
 import static com.concepts.concurrency.multithreading.RunnableFactory.shutdownWithGrace;
 import static java.util.concurrent.Executors.newCachedThreadPool;
+import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.ExecutorService;
 
@@ -23,14 +24,15 @@ public class CounterTest {
 	 * Tests whether the counter is thread safe
 	 */
 	@Test
-	public void testCounterIsThreadSafe() {
+	public void testIncrementAndConsumeCount() {
 		ExecutorService service = newCachedThreadPool();
 		Counter counter = new Counter();
 		for (int loop = 0; loop < 10; loop++) {
 			service.execute(incrementerRunners(counter));
 		}
-		service.execute(consumerRunners(counter));
+		service.execute(consumerRunners(counter));		
 		shutdownWithGrace(service);
+		assertEquals(Integer.valueOf(10), counter.intValue());		
 	}
 
 	/**
@@ -44,7 +46,8 @@ public class CounterTest {
 		service.execute(consumerRunners(counter, c -> c.intValue() % 2 == 0));
 		for (int loop = 0; loop < 10; loop++) {
 			service.execute(incrementerRunners(counter));
-		}
+		}		
 		shutdownWithGrace(service);
+		assertEquals(Integer.valueOf(10), counter.intValue());
 	}
 }
