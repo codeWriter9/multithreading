@@ -21,12 +21,13 @@ import org.slf4j.Logger;
  *
  */
 public class CounterTest {
-	
+
 	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	/**
 	 * 
 	 * Tests whether the counter is thread safe
+	 * 
 	 */
 	@Test
 	public void testIncrementersAndConsumers() {
@@ -35,14 +36,15 @@ public class CounterTest {
 		for (int loop = 0; loop < 10; loop++) {
 			service.execute(incrementerRunners(counter));
 		}
-		service.execute(consumerRunners(counter));		
+		service.execute(consumerRunners(counter));
 		shutdownWithGrace(service);
-		assertEquals(Integer.valueOf(10), counter.intValue());		
+		assertEquals(Integer.valueOf(10), counter.intValue());
 	}
 
 	/**
 	 * 
-	 * Tests whether the counter is thread safe
+	 * Tests if separate counters in loop count to the same result
+	 * 
 	 */
 	@Test
 	public void testStartConsumersFirstAndThenIncrementers() {
@@ -51,14 +53,15 @@ public class CounterTest {
 		service.execute(consumerRunners(counter, c -> c.intValue() % 2 == 0));
 		for (int loop = 0; loop < 10; loop++) {
 			service.execute(incrementerRunners(counter));
-		}		
+		}
 		shutdownWithGrace(service);
 		assertEquals(Integer.valueOf(10), counter.intValue());
 	}
-	
+
 	/**
 	 * 
-	 * Tests whether the counter is thread safe
+	 * Tests if separate counters in loop count to the same result
+	 * 
 	 */
 	@Test
 	public void testIncrementersAndConsumersInnerLoop() {
@@ -67,14 +70,15 @@ public class CounterTest {
 		for (int loop = 0; loop < 10; loop++) {
 			service.execute(incrementerRunners(counter, 10));
 		}
-		service.execute(consumerRunners(counter));		
-		shutdownWithGrace(service);		
-		assertEquals(Integer.valueOf(100), counter.intValue());		
+		service.execute(consumerRunners(counter));
+		shutdownWithGrace(service);
+		assertEquals(Integer.valueOf(100), counter.intValue());
 	}
-	
+
 	/**
 	 * 
-	 * Tests whether the counter is thread safe
+	 * Tests if separate counters in loop with steps count to the same result 
+	 * 
 	 */
 	@Test
 	public void testIncrementersAndConsumersInnerLoopAndStep() {
@@ -83,8 +87,8 @@ public class CounterTest {
 		for (int loop = 0; loop < 10; loop++) {
 			service.execute(incrementerRunners(counter, 10, loop % 2 == 0 ? 1 : 2));
 		}
-		service.execute(consumerRunners(counter));		
+		service.execute(consumerRunners(counter));
 		shutdownWithGrace(service);
-		assertEquals(Integer.valueOf(100), counter.intValue());		
+		assertEquals(Integer.valueOf(100), counter.intValue());
 	}
 }

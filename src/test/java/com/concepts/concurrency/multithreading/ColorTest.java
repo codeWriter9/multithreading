@@ -37,7 +37,9 @@ public class ColorTest {
 	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	/**
+	 * 
 	 * Tests whether the colors are in sequence
+	 * 
 	 */
 	@Test
 	public void checkColorsInSequence() {
@@ -73,7 +75,9 @@ public class ColorTest {
 	}
 
 	/**
+	 * 
 	 * Tests whether the colors are in sequence
+	 * 
 	 */
 	@Test
 	public void checkColorsInSequenceThroughExecutorService() {
