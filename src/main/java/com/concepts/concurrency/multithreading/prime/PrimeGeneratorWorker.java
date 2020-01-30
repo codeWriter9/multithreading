@@ -39,21 +39,22 @@ public class PrimeGeneratorWorker implements Runnable {
 
 	@Override
 	public void run() {
+		LOG.info(" [ " + Thread.currentThread().getName() + " ]  | start " + candidate + " | end " + end);
 		process();
-		LOG.info(" counting down T [ " + Thread.currentThread().getName() + " ] ");
-		generator.tracker.countDown();
 		try {
-			while (!generator.isDone()) {
-				LOG.info(" processed T [ " + Thread.currentThread().getName() + " ] ");
-				generator.barrier().await();
-			}
+
+			LOG.info(" processed T [ " + Thread.currentThread().getName() + " ] ");
+			generator.barrier().await();
+			
 		} catch (InterruptedException e) {
-			System.err.println(" =======>  InterruptedException ");
-			System.err.println(e.getMessage());
+			LOG.error(" =======>  InterruptedException ");			
+			LOG.error(e.getMessage());
+			e.printStackTrace();
 			return;
 		} catch (BrokenBarrierException e) {
-			System.err.println(" =======>  BrokenBarrierException ");
-			System.err.println(e.getMessage());
+			LOG.error(" =======>  BrokenBarrierException [ " + Thread.currentThread().getName() + "] ");
+			LOG.error(e.getMessage());
+			e.printStackTrace();
 			return;
 		}
 
@@ -85,8 +86,9 @@ public class PrimeGeneratorWorker implements Runnable {
 
 			candidate++;
 		}
-		LOG.info(" candidates = " + candidates);
+//		LOG.info(" candidates = " + candidates);
 		processed = true;
+		generator.processedThreads.add(processed);
 		primes = null;
 	}
 

@@ -9,13 +9,18 @@ import org.slf4j.Logger;
 import com.concepts.concurrency.multithreading.prime.PrimeGenerator;
 
 public class PrimeGeneratorTest {
-	
+
 	private static final Logger LOG = getLogger(lookup().lookupClass());
-	
+
 	@Test
 	public void testPrimeGenerators() {
 		PrimeGenerator primeGenerator = new PrimeGenerator(20000, null);
-		LOG.info(primeGenerator.primes() + "");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			LOG.error(e.getMessage());
+		}
+		LOG.info(" Primes " + primeGenerator.primes());
 	}
 
 }

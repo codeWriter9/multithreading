@@ -5,19 +5,18 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 
 public class PrimeGenerator {
-	
+
 	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	public static final Integer NUMBER_OF_WORKERS = 10;
@@ -30,13 +29,14 @@ public class PrimeGenerator {
 	List<PrimeGeneratorWorker> worker = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);
 	ExecutorService service;
 	Integer lastSubmitted;
-	CountDownLatch tracker;
+	List<Boolean> processedThreads;
 
 	public PrimeGenerator(Integer upperBound, CyclicBarrier barrier) {
 		this.upperBound = upperBound;
 		this.barrier = barrier == null ? defaultBarrier() : barrier;
 		primes = new CopyOnWriteArrayList<>();
 		service = newFixedThreadPool(NUMBER_OF_WORKERS);
+		processedThreads = new ArrayList<Boolean>(0);
 		kickOff();
 	}
 
@@ -47,11 +47,10 @@ public class PrimeGenerator {
 		primes.add(7);
 		LOG.info(" primes = " + primes);
 		int start = 8;
-		int end = (int) (upperBound / 10) >	 1000 ? 1000 : (upperBound / 10);
+		int end = (int) (upperBound / 10) > 1000 ? 1000 : (upperBound / 10);
 		System.out.println(" end = " + end);
 		int step = end;
-		tracker = new CountDownLatch(NUMBER_OF_WORKERS);
-		for (int workers = 0; workers < NUMBER_OF_WORKERS; workers++) {			
+		for (int workers = 0; workers < NUMBER_OF_WORKERS; workers++) {
 			PrimeGeneratorWorker pgworker = new PrimeGeneratorWorker(start, end, this);
 			lastSubmitted = end;
 			worker.add(pgworker);
@@ -64,8 +63,8 @@ public class PrimeGenerator {
 	}
 
 	public boolean isDone() throws InterruptedException {
-		LOG.info(" tracker " + tracker.getCount());
-		return tracker.await(10 * 1000,TimeUnit.MILLISECONDS);
+		LOG.info(" Threads processed = " + processedThreads.size());
+		return processedThreads.size() == NUMBER_OF_WORKERS;
 	}
 
 	public CyclicBarrier barrier() {
@@ -79,6 +78,18 @@ public class PrimeGenerator {
 	synchronized List<Integer> primesSync() {
 		synchronized (this.primes) {
 			return primes;
+		}
+	}
+
+	synchronized boolean primesSync(List<Integer> primes) {
+		synchronized (this.primes) {
+			try {
+				this.primes.addAll(primes);
+				this.primes = new CopyOnWriteArrayList<Integer>(new LinkedHashSet<Integer>(primes));
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
 		}
 	}
 

@@ -28,17 +28,21 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 			primes.addAll(candiates);
 		}
 		sort(primes);
+		primeGenerator.primesSync(primes);
+		if (primeGenerator.upperBound <= primeGenerator.lastSubmitted) {
+			LOG.info(" Merging Completed ");
+			return;
+		}
 		int start = primeGenerator.lastSubmitted;
-		int end = (int) (primeGenerator.upperBound / 10) > 1000 ? 1000 : (primeGenerator.upperBound / 10);
+		int end = (int) (primeGenerator.upperBound / 10) > 1000 ? start + 1000 : start + (primeGenerator.upperBound / 10);
 		int step = end;
 		for (PrimeGeneratorWorker worker : workers) {
-			worker.restart(start, end);		
-			primeGenerator.worker.add(worker);
+			worker.restart(start, end);			
 			new Thread(worker).start();
 			start = end;
 			end = end + step;			
 		}
-		primeGenerator.lastSubmitted = end;
+		primeGenerator.lastSubmitted = end;		
 		LOG.info(" Merging Completed ");
 	}
 }
