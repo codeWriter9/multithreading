@@ -10,6 +10,14 @@ import java.util.concurrent.BrokenBarrierException;
 
 import org.slf4j.Logger;
 
+/**
+ * 
+ * 
+ * 
+ * 
+ * @author Sanjay Ghosh
+ *
+ */
 public class PrimeGeneratorWorker implements Runnable {
 
 	private static final Logger LOG = getLogger(lookup().lookupClass());
@@ -20,30 +28,47 @@ public class PrimeGeneratorWorker implements Runnable {
 	List<Integer> candidates;
 	boolean processed;
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param start
+	 * @param end
+	 * @param generator
+	 */
 	public PrimeGeneratorWorker(int start, int end, PrimeGenerator generator) {
 		this.end = end;
 		this.candidate = start;
 		this.candidates = new ArrayList<Integer>();
 		this.processed = false;
-		this.generator = generator;
-		// LOG.info(" created process for start = " + start + " | end = " + end);
+		this.generator = generator;		
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param start
+	 * @param end
+	 */
 	public void restart(int start, int end) {
 		this.end = end;
 		this.candidate = start;
-		this.candidates.clear();
-		;
+		this.candidates.clear();		
 		this.processed = false;
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 */
 	@Override
 	public void run() {
-		LOG.info(" [ " + Thread.currentThread().getName() + " ]  | start " + candidate + " | end " + end);
+		LOG.debug(" [ " + Thread.currentThread().getName() + " ]  | start " + candidate + " | end " + end);
 		process();
 		try {
 
-			LOG.info(" processed T [ " + Thread.currentThread().getName() + " ] ");
+			LOG.debug(" processed T [ " + Thread.currentThread().getName() + " ] ");
 			generator.barrier().await();
 			
 		} catch (InterruptedException e) {
@@ -60,14 +85,29 @@ public class PrimeGeneratorWorker implements Runnable {
 
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
 	private boolean hasProcessed() {
 		return candidate >= end;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	private boolean hasNotProcessed() {
 		return !hasProcessed();
 	}
 
+	/**
+	 * 
+	 * 
+	 */
 	private void process() {
 		generator.lock().lock();
 		List<Integer> primes = generator.primesSync();
@@ -86,18 +126,26 @@ public class PrimeGeneratorWorker implements Runnable {
 
 			candidate++;
 		}
-//		LOG.info(" candidates = " + candidates);
 		processed = true;
 		generator.processedThreads.add(processed);
 		primes = null;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	List<Integer> candidates() {
 		return candidates;
 	}
 
+	/**
+	 * 
+	 * 
+	 */
 	@Override
 	public String toString() {
-		return " worker ";
+		return "Prime Generator Worker";
 	}
 }

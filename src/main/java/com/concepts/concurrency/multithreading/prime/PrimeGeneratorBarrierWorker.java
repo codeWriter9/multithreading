@@ -22,19 +22,19 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 	public void run() {
 		LOG.info(" Merging Started ");
 		List<Integer> primes = primeGenerator.primesSync();
-		List<PrimeGeneratorWorker> workers = primeGenerator.worker;
+		List<PrimeGeneratorWorker> workers = primeGenerator.workers();
 		for (PrimeGeneratorWorker worker : workers) {
 			List<Integer> candiates = worker.candidates();
 			primes.addAll(candiates);
 		}
 		sort(primes);
 		primeGenerator.primesSync(primes);
-		if (primeGenerator.upperBound <= primeGenerator.lastSubmitted) {
+		if (primeGenerator.isDone()) {
 			LOG.info(" Merging Completed ");
 			return;
 		}
-		int start = primeGenerator.lastSubmitted;
-		int end = (int) (primeGenerator.upperBound / 10) > 1000 ? start + 1000 : start + (primeGenerator.upperBound / 10);
+		int start = primeGenerator.lastSubmitted();
+		int end = (int) (primeGenerator.upperBound() / 10) > 1000 ? start + 1000 : start + (primeGenerator.upperBound() / 10);
 		int step = end;
 		for (PrimeGeneratorWorker worker : workers) {
 			worker.restart(start, end);			

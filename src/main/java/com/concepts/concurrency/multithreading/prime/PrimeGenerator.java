@@ -26,16 +26,17 @@ public class PrimeGenerator {
 	CopyOnWriteArrayList<Integer> primes;
 	Status status;
 	final Lock lock = new ReentrantLock();
-	List<PrimeGeneratorWorker> worker = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);
-	ExecutorService service;
+	List<PrimeGeneratorWorker> workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);	
 	Integer lastSubmitted;
 	List<Boolean> processedThreads;
+	
+
 
 	public PrimeGenerator(Integer upperBound, CyclicBarrier barrier) {
 		this.upperBound = upperBound;
 		this.barrier = barrier == null ? defaultBarrier() : barrier;
 		primes = new CopyOnWriteArrayList<>();
-		service = newFixedThreadPool(NUMBER_OF_WORKERS);
+	
 		processedThreads = new ArrayList<Boolean>(0);
 		kickOff();
 	}
@@ -45,27 +46,23 @@ public class PrimeGenerator {
 		primes.add(3);
 		primes.add(5);
 		primes.add(7);
-		LOG.info(" primes = " + primes);
+		LOG.debug(" primes = " + primes);
 		int start = 8;
 		int end = (int) (upperBound / 10) > 1000 ? 1000 : (upperBound / 10);
-		System.out.println(" end = " + end);
+		LOG.debug(" end = " + end);
 		int step = end;
-		for (int workers = 0; workers < NUMBER_OF_WORKERS; workers++) {
+		for (int numberOfWorkers = 0; numberOfWorkers < NUMBER_OF_WORKERS; numberOfWorkers++) {
 			PrimeGeneratorWorker pgworker = new PrimeGeneratorWorker(start, end, this);
 			lastSubmitted = end;
-			worker.add(pgworker);
-			new Thread(pgworker, Integer.toString(workers)).start();
+			workers.add(pgworker);
+			new Thread(pgworker, Integer.toString(numberOfWorkers)).start();
 			start = end;
 			end = end + step;
 		}
-		LOG.info(" workers = " + worker);
+		LOG.debug(" workers = " + workers);
 		lastSubmitted = end;
 	}
-
-	public boolean isDone() throws InterruptedException {
-		LOG.info(" Threads processed = " + processedThreads.size());
-		return processedThreads.size() == NUMBER_OF_WORKERS;
-	}
+	
 
 	public CyclicBarrier barrier() {
 		return barrier;
@@ -100,19 +97,7 @@ public class PrimeGenerator {
 	private Runnable merger() {
 		return new PrimeGeneratorBarrierWorker(this);
 	}
-
-	/**
-	 * 
-	 * Safely wait for your turn
-	 * 
-	 */
-	private void safelyWait() {
-		try {
-			status.wait();
-		} catch (InterruptedException e) {
-			LOG.error(" Error message from safelyWait " + e.getMessage());
-		}
-	}
+	
 
 	/**
 	 * 
@@ -122,5 +107,41 @@ public class PrimeGenerator {
 	public List<Integer> primes() {
 		return new ArrayList<Integer>(primes);
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public boolean isDone() {
+		return this.upperBound <= this.lastSubmitted;
+	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
+	public Integer lastSubmitted() {
+		return this.lastSubmitted;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public Integer upperBound() {
+		return this.upperBound;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public List<PrimeGeneratorWorker> workers() {
+		return workers;
+	}
 }
