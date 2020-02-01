@@ -8,16 +8,33 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
+/**
+ * 
+ * 
+ * 
+ * @author Sanjay Ghosh
+ *
+ */
 public class PrimeGeneratorBarrierWorker implements Runnable {
 	
 	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	PrimeGenerator primeGenerator;
 
+	/**
+	 * 
+	 * 
+	 * @param primeGenerator
+	 */
 	public PrimeGeneratorBarrierWorker(PrimeGenerator primeGenerator) {
 		this.primeGenerator = primeGenerator;
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 */
 	@Override
 	public void run() {
 		LOG.info(" Merging Started ");

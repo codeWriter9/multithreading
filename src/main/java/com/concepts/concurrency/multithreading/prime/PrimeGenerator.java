@@ -15,6 +15,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 
+/**
+ * 
+ * 
+ * 
+ * @author Sanjay Ghosh
+ *
+ */
 public class PrimeGenerator {
 
 	private static final Logger LOG = getLogger(lookup().lookupClass());
@@ -23,15 +30,20 @@ public class PrimeGenerator {
 
 	final Integer upperBound;
 	final CyclicBarrier barrier;
-	CopyOnWriteArrayList<Integer> primes;
-	Status status;
+	CopyOnWriteArrayList<Integer> primes;	
 	final Lock lock = new ReentrantLock();
 	List<PrimeGeneratorWorker> workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);	
 	Integer lastSubmitted;
 	List<Boolean> processedThreads;
 	
 
-
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param upperBound
+	 * @param barrier
+	 */
 	public PrimeGenerator(Integer upperBound, CyclicBarrier barrier) {
 		this.upperBound = upperBound;
 		this.barrier = barrier == null ? defaultBarrier() : barrier;
@@ -41,6 +53,12 @@ public class PrimeGenerator {
 		kickOff();
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	private void kickOff() {
 		primes.add(2);
 		primes.add(3);
@@ -64,20 +82,45 @@ public class PrimeGenerator {
 	}
 	
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return CyclicBarrier
+	 */
 	public CyclicBarrier barrier() {
 		return barrier;
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return lock
+	 */
 	public Lock lock() {
 		return lock;
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return List<Integer>
+	 */
 	synchronized List<Integer> primesSync() {
 		synchronized (this.primes) {
 			return primes;
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param primes
+	 * @return boolean
+	 */
 	synchronized boolean primesSync(List<Integer> primes) {
 		synchronized (this.primes) {
 			try {
@@ -90,10 +133,21 @@ public class PrimeGenerator {
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return CyclicBarrier
+	 */
 	public CyclicBarrier defaultBarrier() {
 		return new CyclicBarrier(NUMBER_OF_WORKERS, merger());
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return Runnable
+	 */
 	private Runnable merger() {
 		return new PrimeGeneratorBarrierWorker(this);
 	}
@@ -102,7 +156,7 @@ public class PrimeGenerator {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return List<Integer>
 	 */
 	public List<Integer> primes() {
 		return new ArrayList<Integer>(primes);
@@ -111,7 +165,7 @@ public class PrimeGenerator {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isDone() {
 		return this.upperBound <= this.lastSubmitted;
@@ -121,7 +175,7 @@ public class PrimeGenerator {
 	 * 
 	 * 
 	 * 
-	 * @return
+	 * @return Integer
 	 */
 	public Integer lastSubmitted() {
 		return this.lastSubmitted;
@@ -130,7 +184,7 @@ public class PrimeGenerator {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return Integer
 	 */
 	public Integer upperBound() {
 		return this.upperBound;
@@ -139,7 +193,7 @@ public class PrimeGenerator {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return List<PrimeGeneratorWorker>
 	 */
 	public List<PrimeGeneratorWorker> workers() {
 		return workers;

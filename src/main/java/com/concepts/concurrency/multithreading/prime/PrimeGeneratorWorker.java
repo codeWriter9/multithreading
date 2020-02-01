@@ -89,8 +89,8 @@ public class PrimeGeneratorWorker implements Runnable {
 	 * 
 	 * 
 	 * 
-	 * @return
-	 */
+	 * @return boolean
+	 */ 
 	private boolean hasProcessed() {
 		return candidate >= end;
 	}
@@ -98,7 +98,7 @@ public class PrimeGeneratorWorker implements Runnable {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return boolean
 	 */
 	private boolean hasNotProcessed() {
 		return !hasProcessed();
@@ -134,7 +134,7 @@ public class PrimeGeneratorWorker implements Runnable {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return List<Integer>
 	 */
 	List<Integer> candidates() {
 		return candidates;
@@ -142,7 +142,7 @@ public class PrimeGeneratorWorker implements Runnable {
 
 	/**
 	 * 
-	 * 
+	 * @return String  
 	 */
 	@Override
 	public String toString() {
