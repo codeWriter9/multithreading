@@ -28,7 +28,7 @@ ColorTest.checkColorsInSequence using pre-Java 5 wait and notify
 ColorTest.checkColorsInSequenceThroughExecutorService using Java 5 execution service
 ```
 
-2. [Prime Numer Generator](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java):
+2. [Prime Numer Generator Test](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java):
 A Junit that uses the Cyclic Barrier to use multiple threads to generate prime numbers
 
 ```
