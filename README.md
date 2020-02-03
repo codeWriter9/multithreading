@@ -32,7 +32,9 @@ ColorTest.checkColorsInSequenceThroughExecutorService using Java 5 execution ser
 A Junit that uses the Cyclic Barrier to use multiple threads to generate prime numbers
 
 ```
-PrimeGeneratorTest.testPrimeGenerators using Cyclic Barrier
+PrimeGeneratorTest.testPrimeGenerators using Cyclic Barrier - generate primes till 20,000
+PrimeGeneratorTest.testPrimeGeneratorsTiny using Cyclic Barrier - generate primes till 500
+PrimeGeneratorTest.testPrimeGeneratorsLarge using Cyclic Barrier - generate primes till 1000,000
 ```
 
 
