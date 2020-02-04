@@ -24,9 +24,9 @@ public class PrimeGeneratorWorker implements Runnable {
 
 	private int end;
 	private int candidate;
-	PrimeGenerator generator;
-	List<Integer> candidates;
-	boolean processed;
+	private PrimeGenerator generator;
+	private List<Integer> candidates;
+	private boolean processed;
 
 	/**
 	 * 

@@ -28,12 +28,12 @@ public class PrimeGenerator {
 
 	public static final Integer NUMBER_OF_WORKERS = 10;
 
-	final Integer upperBound;
-	final CyclicBarrier barrier;
-	CopyOnWriteArrayList<Integer> primes;	
-	final Lock lock = new ReentrantLock();
-	List<PrimeGeneratorWorker> workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);	
-	Integer lastSubmitted;	
+	private final Integer upperBound;
+	private final CyclicBarrier barrier;
+	private CopyOnWriteArrayList<Integer> primes;	
+	private final Lock lock = new ReentrantLock();
+	private List<PrimeGeneratorWorker> workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);	
+	private Integer lastSubmitted;	
 	
 
 	/**
@@ -176,6 +176,17 @@ public class PrimeGenerator {
 	 */
 	public Integer lastSubmitted() {
 		return this.lastSubmitted;
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return Integer
+	 */
+	public void lastSubmitted(int end) {
+		this.lastSubmitted = end;
 	}
 
 	/**

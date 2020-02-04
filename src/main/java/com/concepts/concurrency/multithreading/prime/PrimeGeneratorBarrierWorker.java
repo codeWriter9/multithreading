@@ -16,10 +16,10 @@ import org.slf4j.Logger;
  *
  */
 public class PrimeGeneratorBarrierWorker implements Runnable {
-	
+
 	private static final Logger LOG = getLogger(lookup().lookupClass());
 
-	PrimeGenerator primeGenerator;
+	private PrimeGenerator primeGenerator;
 
 	/**
 	 * 
@@ -51,15 +51,16 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 			return;
 		}
 		int start = primeGenerator.lastSubmitted();
-		int end = (int) (primeGenerator.upperBound() / 10) > 1000 ? start + 1000 : start + (primeGenerator.upperBound() / 10);
+		int end = (int) (primeGenerator.upperBound() / 10) > 1000 ? start + 1000
+				: start + (primeGenerator.upperBound() / 10);
 		int step = end;
 		for (PrimeGeneratorWorker worker : workers) {
-			worker.restart(start, end);			
+			worker.restart(start, end);
 			new Thread(worker).start();
 			start = end;
-			end = end + step;			
+			end = end + step;
 		}
-		primeGenerator.lastSubmitted = end;		
+		primeGenerator.lastSubmitted(end);
 		LOG.info(" Merging Completed ");
 	}
 }
