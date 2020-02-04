@@ -33,8 +33,7 @@ public class PrimeGenerator {
 	CopyOnWriteArrayList<Integer> primes;	
 	final Lock lock = new ReentrantLock();
 	List<PrimeGeneratorWorker> workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);	
-	Integer lastSubmitted;
-	List<Boolean> processedThreads;
+	Integer lastSubmitted;	
 	
 
 	/**
@@ -47,9 +46,7 @@ public class PrimeGenerator {
 	public PrimeGenerator(Integer upperBound, CyclicBarrier barrier) {
 		this.upperBound = upperBound;
 		this.barrier = barrier == null ? defaultBarrier() : barrier;
-		primes = new CopyOnWriteArrayList<>();
-	
-		processedThreads = new ArrayList<Boolean>(0);
+		primes = new CopyOnWriteArrayList<>();		
 		kickOff();
 	}
 
