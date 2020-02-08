@@ -50,15 +50,17 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 			LOG.info(" Merging Completed ");
 			return;
 		}
+		int primes_last = primes.get(primes.size() - 1);
+		LOG.debug(" primes_last = " + primes_last);
 		int start = primeGenerator.lastSubmitted();
-		int end = (int) (primeGenerator.upperBound() / 10) > 1000 ? start + 1000
-				: start + (primeGenerator.upperBound() / 10);
-		int step = end;
+		int end = primes_last * primes_last > primeGenerator.upperBound() ? primeGenerator.upperBound() : primes_last * primes_last;
+		LOG.debug(" end = " + end);
+		int step = (int) end / 10;
 		for (PrimeGeneratorWorker worker : workers) {
 			worker.restart(start, end);
 			new Thread(worker).start();
 			start = end;
-			end = end + step;
+			end = end + step > primeGenerator.upperBound() ? primeGenerator.upperBound() : end + step;
 		}
 		primeGenerator.lastSubmitted(end);
 		LOG.info(" Merging Completed ");

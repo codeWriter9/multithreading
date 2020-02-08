@@ -126,8 +126,7 @@ public class PrimeGeneratorWorker implements Runnable {
 
 			candidate++;
 		}
-		processed = true;
-		//generator.processedThreads.add(processed);
+		processed = true;		
 		primes = null;
 	}
 

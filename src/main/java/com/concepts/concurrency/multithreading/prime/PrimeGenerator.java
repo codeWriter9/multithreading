@@ -1,7 +1,6 @@
 package com.concepts.concurrency.multithreading.prime;
 
 import static java.lang.invoke.MethodHandles.lookup;
-import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -17,7 +15,13 @@ import org.slf4j.Logger;
 
 /**
  * 
- * 
+ * We start with the basic list of [2, 3, 5, 7] as the first prime numbers and then build on it
+ * To keep things simple we always use 10 threads to divide the work
+ * each of the thread will start checking from <code>start</code> to <code>end</code>
+ * We calculate <code>end</code> by
+ *       end : = upperBound <= 10 ? 10 : next step
+ *       end : = upperBound > 10 && upperBound < prime[last] ? prime[last] * prime[last] : next step
+ *       end : =   
  * 
  * @author Sanjay Ghosh
  *
@@ -30,11 +34,10 @@ public class PrimeGenerator {
 
 	private final Integer upperBound;
 	private final CyclicBarrier barrier;
-	private CopyOnWriteArrayList<Integer> primes;	
-	private final Lock lock = new ReentrantLock();
-	private List<PrimeGeneratorWorker> workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);	
-	private Integer lastSubmitted;	
-	
+	private CopyOnWriteArrayList<Integer> primes;
+	private final Lock lock;
+	private List<PrimeGeneratorWorker> workers;
+	private Integer lastSubmitted;
 
 	/**
 	 * 
@@ -46,7 +49,9 @@ public class PrimeGenerator {
 	public PrimeGenerator(Integer upperBound, CyclicBarrier barrier) {
 		this.upperBound = upperBound;
 		this.barrier = barrier == null ? defaultBarrier() : barrier;
-		primes = new CopyOnWriteArrayList<>();		
+		primes = new CopyOnWriteArrayList<>();
+		lock = new ReentrantLock();
+		workers = new ArrayList<PrimeGeneratorWorker>(NUMBER_OF_WORKERS);
 		kickOff();
 	}
 
@@ -62,22 +67,27 @@ public class PrimeGenerator {
 		primes.add(5);
 		primes.add(7);
 		LOG.debug(" primes = " + primes);
+		if (upperBound <= 10) {
+			return;
+		}
 		int start = 8;
-		int end = (int) (upperBound / 10) > 1000 ? 1000 : (upperBound / 10);
+		int primes_last = primes.get(primes.size() - 1);
+		LOG.debug(" primes_last = " + primes_last);
+		int end = primes_last * primes_last > upperBound ? upperBound : primes_last * primes_last;
 		LOG.debug(" end = " + end);
-		int step = end;
+		int step = (int) end / 10;
+		end = start + step; 
 		for (int numberOfWorkers = 0; numberOfWorkers < NUMBER_OF_WORKERS; numberOfWorkers++) {
 			PrimeGeneratorWorker pgworker = new PrimeGeneratorWorker(start, end, this);
 			lastSubmitted = end;
 			workers.add(pgworker);
 			new Thread(pgworker, Integer.toString(numberOfWorkers)).start();
 			start = end;
-			end = end + step;
+			end = end + step > upperBound() ? upperBound() : end + step;
 		}
 		LOG.debug(" workers = " + workers);
 		lastSubmitted = end;
 	}
-	
 
 	/**
 	 * 
@@ -148,7 +158,6 @@ public class PrimeGenerator {
 	private Runnable merger() {
 		return new PrimeGeneratorBarrierWorker(this);
 	}
-	
 
 	/**
 	 * 
@@ -158,7 +167,7 @@ public class PrimeGenerator {
 	public List<Integer> primes() {
 		return new ArrayList<Integer>(primes);
 	}
-	
+
 	/**
 	 * 
 	 * 
@@ -177,8 +186,7 @@ public class PrimeGenerator {
 	public Integer lastSubmitted() {
 		return this.lastSubmitted;
 	}
-	
-	
+
 	/**
 	 * 
 	 * 
