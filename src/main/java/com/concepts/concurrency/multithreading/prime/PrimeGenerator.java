@@ -84,8 +84,7 @@ public class PrimeGenerator {
 			new Thread(pgworker, Integer.toString(numberOfWorkers)).start();
 			start = end;
 			end = end + step > upperBound() ? upperBound() : end + step;
-		}
-		LOG.debug(" workers = " + workers);
+		}		
 		lastSubmitted = end;
 	}
 

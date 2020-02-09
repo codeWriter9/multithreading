@@ -56,6 +56,7 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 		int end = primes_last * primes_last > primeGenerator.upperBound() ? primeGenerator.upperBound() : primes_last * primes_last;
 		LOG.debug(" end = " + end);
 		int step = (int) end / 10;
+		end = start + step;
 		for (PrimeGeneratorWorker worker : workers) {
 			worker.restart(start, end);
 			new Thread(worker).start();

@@ -4,6 +4,7 @@ import static java.lang.invoke.MethodHandles.lookup;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -18,22 +19,7 @@ import com.concepts.concurrency.multithreading.prime.PrimeGenerator;
  */
 public class PrimeGeneratorTest {
 
-	private static final Logger LOG = getLogger(lookup().lookupClass());
-
-	/**
-	 * 
-	 * 
-	 */
-	@Test
-	public void testPrimeGenerators() {
-		PrimeGenerator primeGenerator = new PrimeGenerator(100000, null);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			LOG.error(e.getMessage());
-		}
-		LOG.info(" No. of Primes less than 100,000: " + primeGenerator.primes().size());
-	}
+	private static final Logger LOG = getLogger(lookup().lookupClass());	
 
 	/**
 	 * 
@@ -83,6 +69,7 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 1,000: " + primeGenerator.primes().size());
+		assertEquals(168, primeGenerator.primes().size());
 	}
 
 	/**
@@ -99,6 +86,21 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 10,000: " + primeGenerator.primes().size());
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	@Test
+	public void testPrimeGenerators() {
+		PrimeGenerator primeGenerator = new PrimeGenerator(100000, null);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			LOG.error(e.getMessage());
+		}
+		LOG.info(" No. of Primes less than 100,000: " + primeGenerator.primes().size());
 	}
 
 	/**
