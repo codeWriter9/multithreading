@@ -70,10 +70,10 @@ public class PrimeGenerator {
 		if (upperBound <= 10) {
 			return;
 		}
-		int start = 8;
-		int primes_last = primes.get(primes.size() - 1);
-		LOG.debug(" primes_last = " + primes_last);
-		int end = primes_last * primes_last > upperBound ? upperBound : primes_last * primes_last;
+		
+		
+		int start = start();		
+		int end = end();
 		LOG.debug(" end = " + end);
 		int step = (int) end / 10;
 		end = start + step; 
@@ -81,11 +81,55 @@ public class PrimeGenerator {
 			PrimeGeneratorWorker pgworker = new PrimeGeneratorWorker(start, end, this);
 			lastSubmitted = end;
 			workers.add(pgworker);
-			new Thread(pgworker, Integer.toString(numberOfWorkers)).start();
+			createThreadAndStart(pgworker, numberOfWorkers);
 			start = end;
-			end = end + step > upperBound() ? upperBound() : end + step;
+			end = stepEnd(end, step);
 		}		
 		lastSubmitted = end;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param worker
+	 * @param threadNumber
+	 */
+	void createThreadAndStart(PrimeGeneratorWorker worker, Integer threadNumber) {
+		new Thread(worker, "cyclic-barrier-runner-" + Integer.toString(threadNumber)).start();
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int start() {
+		int primes_last = primes.get(primes.size() - 1);
+		return primes_last + 1;
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
+	int end() {
+		int primes_last = primes.get(primes.size() - 1);
+		return primes_last * primes_last > upperBound ? upperBound : primes_last * primes_last;
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param end
+	 * @param step
+	 * @return
+	 */
+	int stepEnd(int end, int step) {
+		return end + step > upperBound() ? upperBound() : end + step;
 	}
 
 	/**
