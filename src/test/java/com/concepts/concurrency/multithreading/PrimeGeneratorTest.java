@@ -1,6 +1,7 @@
 package com.concepts.concurrency.multithreading;
 
 import static java.lang.invoke.MethodHandles.lookup;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.junit.Test;
@@ -48,6 +49,7 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 10: " + primeGenerator.primes().size());
+		assertEquals(4, primeGenerator.primes().size());
 	}
 
 	/**
@@ -63,7 +65,8 @@ public class PrimeGeneratorTest {
 		} catch (InterruptedException e) {
 			LOG.error(e.getMessage());
 		}
-		LOG.info(" No. of Primes less than 100: " + primeGenerator.primes().size());		
+		LOG.info(" No. of Primes less than 100: " + primeGenerator.primes().size());
+		assertEquals(25, primeGenerator.primes().size());
 	}
 
 	/**
@@ -79,10 +82,9 @@ public class PrimeGeneratorTest {
 		} catch (InterruptedException e) {
 			LOG.error(e.getMessage());
 		}
-		LOG.info(" No. of Primes less than 1,000: " + primeGenerator.primes().size());		
+		LOG.info(" No. of Primes less than 1,000: " + primeGenerator.primes().size());
 	}
-	
-	
+
 	/**
 	 * 
 	 * 
@@ -96,7 +98,7 @@ public class PrimeGeneratorTest {
 		} catch (InterruptedException e) {
 			LOG.error(e.getMessage());
 		}
-		LOG.info(" No. of Primes less than 10,000: " + primeGenerator.primes().size());		
+		LOG.info(" No. of Primes less than 10,000: " + primeGenerator.primes().size());
 	}
 
 	/**
