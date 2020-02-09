@@ -19,7 +19,7 @@ import com.concepts.concurrency.multithreading.prime.PrimeGenerator;
  */
 public class PrimeGeneratorTest {
 
-	private static final Logger LOG = getLogger(lookup().lookupClass());	
+	private static final Logger LOG = getLogger(lookup().lookupClass());
 
 	/**
 	 * 
@@ -35,6 +35,7 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 10: " + primeGenerator.primes().size());
+		LOG.debug("       Primes less than 10: " + primeGenerator.primes());
 		assertEquals(4, primeGenerator.primes().size());
 	}
 
@@ -52,6 +53,7 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 100: " + primeGenerator.primes().size());
+		LOG.debug("       Primes less than 100: " + primeGenerator.primes());
 		assertEquals(25, primeGenerator.primes().size());
 	}
 
@@ -69,6 +71,7 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 1,000: " + primeGenerator.primes().size());
+		LOG.debug("       Primes less than 1,000: " + primeGenerator.primes());
 		assertEquals(168, primeGenerator.primes().size());
 	}
 
@@ -86,8 +89,10 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 10,000: " + primeGenerator.primes().size());
+		LOG.debug("       Primes less than 10,000: " + primeGenerator.primes());
+		assertEquals(1,229, primeGenerator.primes().size());
 	}
-	
+
 	/**
 	 * 
 	 * 
@@ -101,6 +106,8 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 100,000: " + primeGenerator.primes().size());
+		LOG.debug("       Primes less than 100,000: " + primeGenerator.primes());
+		assertEquals(9,592, primeGenerator.primes().size());
 	}
 
 	/**
@@ -116,5 +123,7 @@ public class PrimeGeneratorTest {
 			LOG.error(e.getMessage());
 		}
 		LOG.info(" No. of Primes less than 1000,000: " + primeGenerator.primes().size());
+		LOG.debug("       Primes less than 100,000: " + primeGenerator.primes());
+		assertEquals(78,498, primeGenerator.primes().size());		 	 
 	}
 }

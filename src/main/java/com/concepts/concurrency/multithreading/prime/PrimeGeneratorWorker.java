@@ -41,7 +41,7 @@ public class PrimeGeneratorWorker implements Runnable {
 		this.candidate = start;
 		this.candidates = new ArrayList<Integer>();
 		this.processed = false;
-		this.generator = generator;		
+		this.generator = generator;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class PrimeGeneratorWorker implements Runnable {
 	public void restart(int start, int end) {
 		this.end = end;
 		this.candidate = start;
-		this.candidates.clear();		
+		this.candidates.clear();
 		this.processed = false;
 	}
 
@@ -70,9 +70,9 @@ public class PrimeGeneratorWorker implements Runnable {
 
 			LOG.debug(" processed T [ " + Thread.currentThread().getName() + " ] ");
 			generator.barrier().await();
-			
+
 		} catch (InterruptedException e) {
-			LOG.error(" =======>  InterruptedException ");			
+			LOG.error(" =======>  InterruptedException ");
 			LOG.error(e.getMessage());
 			e.printStackTrace();
 			return;
@@ -90,7 +90,7 @@ public class PrimeGeneratorWorker implements Runnable {
 	 * 
 	 * 
 	 * @return boolean
-	 */ 
+	 */
 	private boolean hasProcessed() {
 		return candidate >= end;
 	}
@@ -126,7 +126,7 @@ public class PrimeGeneratorWorker implements Runnable {
 
 			candidate++;
 		}
-		processed = true;		
+		processed = true;
 		primes = null;
 	}
 
@@ -141,7 +141,7 @@ public class PrimeGeneratorWorker implements Runnable {
 
 	/**
 	 * 
-	 * @return String  
+	 * @return String
 	 */
 	@Override
 	public String toString() {

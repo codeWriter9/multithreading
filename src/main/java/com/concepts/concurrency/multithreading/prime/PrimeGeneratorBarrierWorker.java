@@ -52,8 +52,9 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 		}
 		int primes_last = primes.get(primes.size() - 1);
 		LOG.debug(" primes_last = " + primes_last);
-		int start = primeGenerator.lastSubmitted();
-		int end = primes_last * primes_last > primeGenerator.upperBound() ? primeGenerator.upperBound() : primes_last * primes_last;
+		int start = primes_last + 1;
+		int end = primes_last * primes_last > primeGenerator.upperBound() ? primeGenerator.upperBound()
+				: primes_last * primes_last;
 		LOG.debug(" end = " + end);
 		int step = (int) end / 10;
 		end = start + step;
@@ -61,7 +62,7 @@ public class PrimeGeneratorBarrierWorker implements Runnable {
 			worker.restart(start, end);
 			new Thread(worker).start();
 			start = end;
-			end = end + step > primeGenerator.upperBound() ? primeGenerator.upperBound() : end + step;
+			end = end + step > primeGenerator.upperBound() ? primeGenerator.upperBound() : end + step;			
 		}
 		primeGenerator.lastSubmitted(end);
 		LOG.info(" Merging Completed ");
