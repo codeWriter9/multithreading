@@ -24,17 +24,16 @@ Current Tests are as follows
 that tests if ColorPrinter prints colors Red Green Blue in sequence inspite of them being run by three different threads
 
 ```
-ColorTest.checkColorsInSequence using pre-Java 5 wait and notify
-ColorTest.checkColorsInSequenceThroughExecutorService using Java 5 execution service
+[ColorTest.checkColorsInSequence](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java#L45) using pre-Java 5 wait and notify
+[ColorTest.checkColorsInSequenceThroughExecutorService](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java#L83) using Java 5 execution service
 ```
 
 2. [Prime Numer Generator Test](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java):
 A Junit that uses the Cyclic Barrier to use multiple threads to generate prime numbers
 
 ```
-PrimeGeneratorTest.testPrimeGenerators using Cyclic Barrier - generate primes till 20,000
-PrimeGeneratorTest.testPrimeGeneratorsTiny using Cyclic Barrier - generate primes till 500
-PrimeGeneratorTest.testPrimeGeneratorsLarge using Cyclic Barrier - generate primes till 1000,000
+[PrimeGeneratorTest.testPrimeGeneratorsTiny](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L30) using Cyclic Barrier - generate primes till 10 : number of primes:4
+[PrimeGeneratorTest.testPrimeGeneratorsTiny2](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L48) using Cyclic Barrier - generate primes till 100 : number of primes:25
 ```
 
 
