@@ -32,11 +32,14 @@ that tests if ColorPrinter prints colors Red Green Blue in sequence inspite of t
 2. [Prime Numer Generator Test](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java):
 A Junit that uses the Cyclic Barrier to use multiple threads to generate prime numbers
 
-```
-[PrimeGeneratorTest.testPrimeGeneratorsTiny](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L30) using Cyclic Barrier - generate primes till 10 : number of primes:4
-[PrimeGeneratorTest.testPrimeGeneratorsTiny2](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L48) using Cyclic Barrier - generate primes till 100 : number of primes:25
-```
-
+|JUnit|Feature Used|N|Number Of Primes|
+|---|---|---|---|
+|[PrimeGeneratorTest.testPrimeGeneratorsTiny](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L30) | Cyclic Barrier | 10 | 4 |
+|[PrimeGeneratorTest.testPrimeGeneratorsTiny2](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L48) | Cyclic Barrier | 100 | 25 |
+|[PrimeGeneratorTest.testPrimeGeneratorsSmall](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L66) | Cyclic Barrier | 1,000 | 168 |
+|[PrimeGeneratorTest.testPrimeGeneratorsRegular](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L84) | Cyclic Barrier | 10,000 | 1,229 |
+|[PrimeGeneratorTest.testPrimeGenerators](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L101) | Cyclic Barrier | 100,000 | 9,592 |
+|[PrimeGeneratorTest.testPrimeGeneratorsLarge](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java#L118) | Cyclic Barrier | 1000,000 | 78,498 |
 
 ## Built With
 
