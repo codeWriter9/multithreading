@@ -23,10 +23,11 @@ Current Tests are as follows
 1. [Colors Test](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java) : A JUnit 
 that tests if ColorPrinter prints colors Red Green Blue in sequence inspite of them being run by three different threads
 
-```
-[ColorTest.checkColorsInSequence](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java#L45) using pre-Java 5 wait and notify
-[ColorTest.checkColorsInSequenceThroughExecutorService](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java#L83) using Java 5 execution service
-```
+|JUnit|Feature Used|
+|---|---|
+|[ColorTest.checkColorsInSequence](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java#L45) | pre-Java 5 wait and notify |
+|[ColorTest.checkColorsInSequenceThroughExecutorService](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/ColorTest.java#L83) | Java 5 execution service|
+
 
 2. [Prime Numer Generator Test](https://github.com/codeWriter9/multithreading/blob/master/src/test/java/com/concepts/concurrency/multithreading/PrimeGeneratorTest.java):
 A Junit that uses the Cyclic Barrier to use multiple threads to generate prime numbers
