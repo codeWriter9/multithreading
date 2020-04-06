@@ -5,12 +5,13 @@ import static com.concepts.concurrency.multithreading.RunnableFactory.incremente
 import static com.concepts.concurrency.multithreading.RunnableFactory.shutdownWithGrace;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.Executors.newCachedThreadPool;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.concurrent.ExecutorService;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 
 /**

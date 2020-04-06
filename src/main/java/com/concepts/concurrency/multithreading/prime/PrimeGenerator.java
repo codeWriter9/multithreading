@@ -101,7 +101,7 @@ public class PrimeGenerator {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @return Integer
 	 */
 	int start() {
 		int primes_last = primes.get(primes.size() - 1);
@@ -113,7 +113,7 @@ public class PrimeGenerator {
 	 * 
 	 * 
 	 * 
-	 * @return
+	 * @return Integer
 	 */
 	int end() {
 		int primes_last = primes.get(primes.size() - 1);
@@ -126,7 +126,7 @@ public class PrimeGenerator {
 	 * 
 	 * @param end
 	 * @param step
-	 * @return
+	 * @return Integer
 	 */
 	int stepEnd(int end, int step) {
 		return end + step > upperBound() ? upperBound() : end + step;
